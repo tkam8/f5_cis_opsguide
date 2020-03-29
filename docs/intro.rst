@@ -13,7 +13,7 @@ When deploying applications in Kubernetes, you will eventually need a way to pro
 
 The F5 BIG-IP Controller (k8s-bigip-ctlr) is a cloud-native connector that can use either Kubernetes or OpenShift as a BIG-IP orchestration platform.
 
-The BIG-IP Controller watches the Kubernetes API for specially formatted resources with CIS labels.It will take those labels and update the BIG-IP configuration accordingly.
+The BIG-IP Controller watches the Kubernetes API for specially formatted resources with CIS labels. It will take those labels and update the BIG-IP configuration accordingly.
 
 Features
 ---------------

@@ -19,6 +19,7 @@ The current workaround is to use hostAliases to define a hostname that resolves 
 See below snippet for a sample configuration:
 
 .. code-block:: yaml
+   :emphasize-lines: 20-23
 
     apiVersion: apps/v1
     kind: Deployment
@@ -39,9 +40,9 @@ See below snippet for a sample configuration:
         spec:
         # Name of the Service Account bound to a Cluster Role with the required
         # permissions
-        **hostAliases**:
-            **- ip: "fddb:ab11:cd22:a101::10"**
-            **hostnames:**
-            **- "stagingbigip1"**
+        hostAliases:
+            - ip: "240b:ab11:cd22:a101::10"
+            hostnames:
+            - "stagingbigip1"
         serviceAccountName: bigip-ctlr
 
