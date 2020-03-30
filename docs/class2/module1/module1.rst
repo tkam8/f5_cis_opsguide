@@ -1,4 +1,4 @@
-CIS and ScaleN (N+1)
+CIS and ScaleN (N+1) - w/ Auto Config-Sync
 ===========================
 
 **Description**: 
@@ -28,10 +28,10 @@ Configuration tips and caveats
     - auto-sync and Flannel cannot be configured together
 - Multi K8s Cluster with 1 CIS deployment per cluster
 - BIG-IP in scalen A/A/S with auto config-sync (optional)
-- Ensure no more than 3 CIS point to a single VE per internal testing
+- Ensure no more than 3 CIS point to a single VE (max tested)
 - Configure HA order to favor a standby before converging TGs on a single VE
 - Consider multiple regions of cluster and use GSLB (DNS) for load balancing between regions
-- For IPv6 addresses, use hostAliases as CIS does not connect right now to an IPv6 address
+- For IPv6 addresses, use :code:`hostAliases` as CIS does not connect right now to an IPv6 address (|knownissue|)
 
 **trafficGroup property**:
 You can specify the traffic group associated with any virtual address so that all associated objects float with that traffic group in a ScaleN (N+1) configuration. See |clouddocs_tg|_ for more details. 
@@ -41,7 +41,7 @@ You can then reference the :code:`Service_Address` name for the :code:`virtualAd
 .. note: The :code:`"use"` pointer references an AS3 object in the same declaration. On the other hand you can use the :code:`"bigip"` pointer for objects that already exist on BIG-IP. 
 
 **shareNodes property**: 
-You can configure shareNodes so that multiple tenants can use the same node IP, which gets created in the /Common partition. See |clouddocs_sn|_ for more details. 
+You can configure :code:`shareNodes` so that multiple tenants can use the same node IP, which gets created in the /Common partition. See |clouddocs_sn|_ for more details. 
 
 **serviceMain**:
 If you use a template with a value of http, https, tcp, udp, or l4, you MUST specify an object with the matching Service class Service_HTTP, Service_HTTPS, Service_TCP, Service_UDP, or Service_L4 and name it serviceMain as described in the following Service Class section. See |clouddocs_sm|_ for more details.
@@ -119,6 +119,7 @@ Sample Configuration:
 .. _clouddocs_sn: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#pool-member
 .. |clouddocs_sm| replace:: F5 Cloud Docs
 .. _clouddocs_sm: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/userguide/composing-a-declaration.html
-
+.. |knownissue| replace:: known issue
+.. _knownissue: https://f5-cis-opsguide.readthedocs.io/en/latest/class1/module3/module3.html
 
 .. |mod-1-1| image:: images/mod-1-1.png
