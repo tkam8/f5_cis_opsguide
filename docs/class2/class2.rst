@@ -16,5 +16,4 @@ This section will cover some best practices, tips, and caveats when designing va
    :caption: Contents:
    :glob:
 
-   intro
    module*/module*
