@@ -8,6 +8,13 @@ This section will cover some best practices, tips, and caveats when using AS3 to
 **Prerequisites**: 
 - Basic understanding REST APIs and declarative configuration.
 
+Below is a visualization of the configuration mappings between the AS3 configmap, Kubernetes Service, and the resulting configuration on BIG-IP. 
+
+|mod-1-1|
+
+*Credit to @foobz for this diagram*
 
 .. |clouddocs| replace:: F5 Cloud Docs
 .. _clouddocs: https://clouddocs.f5.com/containers/v2/kubernetes/kctlr-k8s-as3.html
+
+.. |mod-1-1| image:: images/mod-1-1.png

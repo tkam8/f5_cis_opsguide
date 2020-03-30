@@ -15,7 +15,7 @@ GitHub issue: https://github.com/F5Networks/k8s-bigip-ctlr/issues/1216
 Workaround
 ------------------
 
-The current workaround is to use hostAliases to define a hostname that resolves to the IPv6 address. 
+The current workaround is to use :code:`hostAliases` to define a hostname that resolves to the IPv6 address. 
 See below snippet for a sample configuration:
 
 .. code-block:: yaml

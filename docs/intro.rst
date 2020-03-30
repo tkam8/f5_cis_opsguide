@@ -4,7 +4,7 @@ Overview
 This unofficial document provides best practices, tips, and caveats when validating F5 Container Ingress Services (CIS) in a Kubernetes environment.
 
 .. NOTE::
-   This is a supplemental guide to official documentation on |clouddocs|_. 
+   This is a supplemental guide to official documentation on |clouddocs|_. Testing should be done in a staging or sandbox environment to confirm expected behavior before deploying to production. 
 
 F5 Container Ingress Services - Overview
 ---------------
