@@ -1,29 +1,28 @@
-AS3 Configmap: Multiple Apps in Single Partition - Single Virtual Address
+AS3 Configmap: Multiple Apps in Single Partition - Multiple Virtual Addresses
 ================================================
 
 
 **Description**: 
-This section will cover some best practices, tips, and caveats when configuring multiple apps (virtual servers) in the AS3 declaration. In this scenario, an application owner wants to configure multiple applications that may use different protocols. The tenant/partition will be the same.
+This section will cover some best practices, tips, and caveats when configuring multiple apps (virtual servers) in the AS3 declaration. In this scenario, an application owner wants to configure multiple applications that may use different protocols and virtual IPs. The tenant/partition will be the same.
 For more examples, see |github|_. 
 
 **Prerequisites**: 
 - Basic understanding REST APIs and declarative configuration.
 
-**Diagrams**:
+**Diagram**:
 
-|mod-4-1|
+|mod-5-1|
 
 Summary
 ------------------
 You can declare multiple applications (virtual servers) in a single partition/tenant. 
 
 #. Define one tenant
-#. Define one virtual address in a Shared application block
-#. Define first application in the tenant block referencing above virtual address using :code:`"use"`
-#. Similarly, define second application in the same tenant block
+#. Define first application in the tenant block with one virtual address
+#. Similarly, define second application with its own virtual address in the same tenant block
 
 .. code-block:: yaml
-   :emphasize-lines: 21-29,30,54
+   :emphasize-lines: 20,23-27,49,52-56
 
     kind: ConfigMap
     apiVersion: v1
@@ -45,22 +44,18 @@ You can declare multiple applications (virtual servers) in a single partition/te
                 "remark": "example",
                 "Tenant0": {
                     "class": "Tenant",
-                    "Shared": {
-                        "class": "Application_Shared",
-                        "template":"shared",
+                    "App1": {
+                        "class": "Application",
+                        "template": "http",
                         "serviceAddress0": {
                             "class": "Service_Address",
                             "virtualAddress": "10.1.10.81",
                             "trafficGroup": "/Common/traffic-group-1"
-                        }
-                    },
-                    "App1": {
-                        "class": "Application",
-                        "template": "http",
+                        },
                         "serviceMain": {
                             "class": "Service_HTTP",
                             "trafficGroup": "traffic-group-1",
-                            "virtualAddresses": [{ "use": "/Tenant0/Shared/serviceAddress0"}],
+                            "virtualAddresses": [{ "use": "/Tenant0/App1/serviceAddress0"}],
                             "virtualPort": 80,
                             "pool": "nginx_pool1"
                         },
@@ -81,10 +76,15 @@ You can declare multiple applications (virtual servers) in a single partition/te
                     "App2": {
                         "class": "Application",
                         "template": "http",
+                        "serviceAddress1": {
+                            "class": "Service_Address",
+                            "virtualAddress": "10.1.10.82",
+                            "trafficGroup": "/Common/traffic-group-1"
+                        },
                         "serviceMain": {
                             "class": "Service_HTTP",
                             "trafficGroup": "traffic-group-1",
-                            "virtualAddresses": [{ "use": "/Tenant0/Shared/serviceAddress0"}],
+                            "virtualAddresses": [{ "use": "/Tenant0/App2/serviceAddress1"}],
                             "virtualPort": 8080,
                             "pool": "nginx_pool2"
                         },
@@ -106,13 +106,14 @@ You can declare multiple applications (virtual servers) in a single partition/te
             }
         }
 
+
 **Confirm BIG-IP Objects**:
 
-- Two Virtual Servers listening on different ports in the same partition (Tenant0)
+- Two Virtual Servers listening on different ports in the same partition (Tenant0), with different Virtual IPs
 
     |mod-4-2|
 
-- One Virtual IP in traffic-group-1
+- Two Virtual IPs in traffic-group-1
 
     |mod-4-3|
 
@@ -128,8 +129,8 @@ You can declare multiple applications (virtual servers) in a single partition/te
 .. |github| replace:: F5 DevCentral f5-k8s-demo repository
 .. _github: https://github.com/f5devcentral/f5-k8s-demo/tree/master/chen-k8s-demo/deployment
 
-.. |mod-4-1| image:: images/mod-4-1.png
-.. |mod-4-2| image:: images/mod-4-2.png
-.. |mod-4-3| image:: images/mod-4-3.png
-.. |mod-4-4| image:: images/mod-4-4.png
-.. |mod-4-5| image:: images/mod-4-5.png
+.. |mod-5-1| image:: images/mod-5-1.png
+.. |mod-5-2| image:: images/mod-5-2.png
+.. |mod-5-3| image:: images/mod-5-3.png
+.. |mod-5-4| image:: images/mod-5-4.png
+.. |mod-5-5| image:: images/mod-5-5.png
