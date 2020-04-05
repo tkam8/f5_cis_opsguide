@@ -1,4 +1,4 @@
-AS3 Configmap: Multiple Apps in Single Partition - Multiple Virtual Address
+AS3 Configmap: Multiple Apps in Single Partition - Single Virtual Address
 ================================================
 
 
@@ -9,7 +9,7 @@ For more examples, see |github|_.
 **Prerequisites**: 
 - Basic understanding REST APIs and declarative configuration.
 
-**Diagrams**:
+**Diagram**:
 
 |mod-4-1|
 
@@ -106,30 +106,10 @@ You can declare multiple applications (virtual servers) in a single partition/te
             }
         }
 
-**Confirm BIG-IP Objects**:
-
-- Two Virtual Servers listening on different ports in the same partition (Tenant0)
-
-    |mod-4-2|
-
-- One Virtual IP in traffic-group-1
-
-    |mod-4-3|
-
-- Two pool associated with each Virtual Server
-
-    |mod-4-4|
-
-- The nodes (pool member IPs) are automatically discovered and placed in the :code:`/Common` partition
-
-    |mod-4-5|
+    
 
 
 .. |github| replace:: F5 DevCentral f5-k8s-demo repository
 .. _github: https://github.com/f5devcentral/f5-k8s-demo/tree/master/chen-k8s-demo/deployment
 
 .. |mod-4-1| image:: images/mod-4-1.png
-.. |mod-4-2| image:: images/mod-4-2.png
-.. |mod-4-3| image:: images/mod-4-3.png
-.. |mod-4-4| image:: images/mod-4-4.png
-.. |mod-4-5| image:: images/mod-4-5.png
