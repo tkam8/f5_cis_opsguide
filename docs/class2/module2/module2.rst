@@ -1,24 +1,21 @@
-CIS and ScaleN (N+1) - w/ out Auto Config-Sync
-===========================
+CIS Service Labels
+================================================
+
 
 **Description**: 
-This design pattern is similar to the previous design except auto config-sync is disabled, therefore multiple CIS instances will be used to configure other devices in the cluster. 
+This section will cover some best practices, tips, and caveats when configuring CIS labels in the Kubernetes Service. These labels are used for service discovery on the BIG-IP. For a full guide to these topics, please refer to the official documentation on |clouddocs|_. 
 
+**Prerequisites**: 
+- Basic understanding REST APIs and declarative configuration.
 
-**Sample Diagram**:
+Summary
+------------------
+CIS can dynamically discover and update the BIG-IP system’s load balancing pool members using Service Discovery. CIS maps each pool definition in the AS3 template to a Kubernetes Service resource using Labels. To create this mapping, add the following labels to your Kubernetes Service:
 
 |mod-2-1|
 
-Configuration tips and caveats
-------------------
-- Ensure no more than 3 Controllers point to a single VE (max tested)
-- Configure the VE non-floating Self-IP in :code:`--bigip-url`
-    - Since there is one Controller per BIG-IP, no need to configure a floating IP
-- Provide a unique metadata.name for each Controller
-- Provide a unique :code:`--bigip-url` in each Deployment (each Controller manages a separate BIG-IP device)
-- Use the same :code:`--bigip-partition` in all Deployments
-- Do not define multiple Deployment configs in a single manifest.
-    - If you launch multiple BIG-IP Controller instances using a single manifest, they will run on the same Pod. This means that if the Pod goes down, you lose all of your Controllers.
 
+.. |clouddocs| replace:: F5 Cloud Docs
+.. _clouddocs: https://clouddocs.f5.com/containers/v2/kubernetes/kctlr-k8s-as3.html#cis-service-discovery
 
 .. |mod-2-1| image:: images/mod-2-1.png
