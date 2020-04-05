@@ -1,125 +1,27 @@
-CIS and ScaleN (N+1) - w/ Auto Config-Sync
+Traffic Groups
 ===========================
 
 **Description**: 
-The ScaleN architecture allows you to create a redundant system configuration for multiple BIG-IP devices on a network.This guide will focus on the tips and best practices for building this in a lab for testing. For a full guide to the installation, please refer to the official documentation on |askf5|_ or |clouddocs|_. 
+F5's ScaleN (N+1) architecture allows you to create a redundant system configuration for multiple BIG-IP devices on a network. This is made possible by using traffic groups. 
 
-**Prerequisites**: 
+**Traffic groups**
 
-- BIG-IP licenses and basic understanding of the BIG-IP system.
-- Existing Kubernetes cluster and basic understanding of the Kubernetes platform.
+A traffic group is a collection of related configuration objects, such as a **floating self IP address** , a **virtual IP address** , and a **SNAT translation address** , that run on a BIG-IP device. Together, these objects process a particular type of application traffic on that device. When a BIG-IP device becomes unavailable, a traffic group floats (that is, fails over) to another device in a device group to ensure that application traffic continues to be processed with little to no interruption in service. In general, a traffic group ensures that when a device becomes unavailable, all of the failover objects in the traffic group fail over to any one of the available devices in the device group.
 
-**Sample Diagram**:
+A traffic group is initially active on the device on which you create it, until the traffic group fails over to another device. For example, if you initially create three traffic groups on Device A, these traffic groups remain active on Device A until one or more traffic groups fail over to another device. If you want an active traffic group to become active on a different device in the device group when failover has not occurred, you can intentionally force the traffic group to switch to a standby state, thereby causing failover to another device.
 
-|mod-1-1|
+Only objects with floating IP addresses can be members of a floating traffic group.
 
-Configuration tips and caveats
-------------------
-- Ensure proper disaggregation in front of BIG-IP
-- Ensure that AS3 Tenant/Partition names *do not* overlap
-- Ensure that AS3 declaration specifies below:
-    - trafficGroup property
-        - number assignment method example: TG1=prod, TG2=staging
-        - *details below*
-    - shareNodes property
-        - To allow Nodeport IPs to be configured in /Common so other partitions can use it
-        - *details below*
-- Only Nodeport or potentially Calico BGP could work
-    - auto-sync and Flannel cannot be configured together
-- Multi K8s Cluster with 1 CIS deployment per cluster
-- BIG-IP in scalen A/A/S with auto config-sync (optional)
-- Ensure no more than 3 CIS point to a single VE (max tested)
-- Configure HA order to favor a standby before converging TGs on a single VE
-- Consider multiple regions of cluster and use GSLB (DNS) for load balancing between regions
-- For IPv6 addresses, use :code:`hostAliases` as CIS does not connect right now to an IPv6 address (|knownissue|)
-
-**trafficGroup property**:
-You can specify the traffic group associated with any virtual address so that all associated objects float with that traffic group in a ScaleN (N+1) configuration. See |clouddocs_tg|_ for more details. 
-
-You can then reference the :code:`Service_Address` name for the :code:`virtualAddresses` property for your virtual server. 
-
-.. note: The :code:`"use"` pointer references an AS3 object in the same declaration. On the other hand you can use the :code:`"bigip"` pointer for objects that already exist on BIG-IP. 
-
-**shareNodes property**: 
-You can configure :code:`shareNodes` so that multiple tenants can use the same node IP, which gets created in the /Common partition. See |clouddocs_sn|_ for more details. 
-
-**serviceMain**:
-If you use a template with a value of http, https, tcp, udp, or l4, you MUST specify an object with the matching Service class Service_HTTP, Service_HTTPS, Service_TCP, Service_UDP, or Service_L4 and name it serviceMain as described in the following Service Class section. See |clouddocs_sm|_ for more details.
-
-.. note: When using the generic template, your virtual server name must not be “serviceMain”
+An example of a set of objects in a traffic group is an iApps application service. If a device with this traffic group is a member of a device group, and the device becomes unavailable, the traffic group floats to another member of the device group, and that member becomes the device that processes the application traffic.
 
 
-Sample Configuration:
-
-.. code-block:: yaml
-   :emphasize-lines: 32,47
-
-    kind: ConfigMap
-    apiVersion: v1
-    metadata:
-    name: stg-as3-declaration-demo
-    namespace: kube-system
-    labels:
-        f5type: virtual-server
-        as3: "true"
-    data:
-    template: |
-        {
-        "class": "AS3",
-        "action": "deploy",
-        "persist": true,
-        "declaration": {
-            "class": "ADC",
-            "schemaVersion": "3.18.0",
-            "id": "demoapp",
-            "label": "f5-istio",
-            "remark": "An HTTP application",
-            "stg_tenant": {
-            "class": "Tenant",
-            "stg_app": {
-                "class": "Application",
-                "template": "http",
-                "stg_svc_addr": {
-                    "class": "Service_Address",
-                    "virtualAddress":  "240b:ab11:cd22:a101::10",
-                    "arpEnabled": false,
-                    "icmpEcho": "disable",
-                    "routeAdvertisement": "any",
-                    "trafficGroup": "/Common/traffic-group-2"
-                },
-                "serviceMain": {
-                "class": "Service_HTTP",
-                "virtualAddresses": [{"use": "stg_svc_addr"}],
-                "pool": "stg_nginx_pool"
-                },
-                "stg_nginx_pool": {
-                "class": "Pool",
-                "monitors": [
-                    "tcp"
-                ],
-                "members": [{
-                    "servicePort": 80,
-                    "serverAddresses": [],
-                    "shareNodes": true
-                }]
-                }
-                }
-            }
-            }
-        }
+For a full guide to traffic groups, please refer to the official documentation on |askf5|_ or |clouddocs|_. 
 
 
 .. |askf5| replace:: AskF5
-.. _askf5: https://techdocs.f5.com/en-us/bigip-14-1-0/big-ip-device-service-clustering-administration-14-1-0/creating-an-active-active-configuration-using-the-configuration-utility.html#GUID-175E31E6-AEE5-47A1-A0FF-7DB6E3C4185E
+.. _askf5: https://techdocs.f5.com/en-us/bigip-14-1-0/big-ip-device-service-clustering-administration-14-1-0/introducing-big-ip-device-service-clustering.html#GUID-8766A4E7-4D1F-4BF8-AFBE-8037AE89FD08
 .. |clouddocs| replace:: F5 Cloud Docs
-.. _clouddocs: https://clouddocs.f5.com/training/community/adc/html/class2/module1/lab1.html
-.. |clouddocs_tg| replace:: F5 Cloud Docs
-.. _clouddocs_tg: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#service-address
-.. |clouddocs_sn| replace:: F5 Cloud Docs
-.. _clouddocs_sn: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#pool-member
-.. |clouddocs_sm| replace:: F5 Cloud Docs
-.. _clouddocs_sm: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/userguide/composing-a-declaration.html
-.. |knownissue| replace:: known issue
-.. _knownissue: https://f5-cis-opsguide.readthedocs.io/en/latest/class1/module3/module3.html
+.. _clouddocs: https://clouddocs.f5.com/training/community/f5cert/html/class6/module10/lab3.html
+
 
 .. |mod-1-1| image:: images/mod-1-1.png
