@@ -111,20 +111,19 @@ You can declare multiple applications (virtual servers) in a single partition/te
 
 - Two Virtual Servers listening on different ports in the same partition (Tenant0), with different Virtual IPs
 
-    |mod-4-2|
+    |mod-5-2|
 
 - Two Virtual IPs in traffic-group-1
 
-    |mod-4-3|
+    |mod-5-3|
 
 - Two pools associated with each Virtual Server
 
-    |mod-4-4|
+    |mod-5-4|
 
 - The nodes (pool member IPs) are automatically discovered and placed in the :code:`/Common` partition
 
-    |mod-4-5|
-
+    |mod-5-5|
 
 .. |github| replace:: F5 DevCentral f5-k8s-demo repository
 .. _github: https://github.com/f5devcentral/f5-k8s-demo/tree/master/chen-k8s-demo/deployment
