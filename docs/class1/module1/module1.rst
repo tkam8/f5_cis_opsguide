@@ -14,12 +14,13 @@ Only objects with floating IP addresses can be members of a floating traffic gro
 
 An example of a set of objects in a traffic group is an iApps application service. If a device with this traffic group is a member of a device group, and the device becomes unavailable, the traffic group floats to another member of the device group, and that member becomes the device that processes the application traffic.
 
+|mod-1-1|
 
 For a full guide to traffic groups, please refer to the official documentation on |askf5|_ or |clouddocs|_. 
 
 
 .. |askf5| replace:: AskF5
-.. _askf5: https://techdocs.f5.com/en-us/bigip-14-1-0/big-ip-device-service-clustering-administration-14-1-0/introducing-big-ip-device-service-clustering.html#GUID-8766A4E7-4D1F-4BF8-AFBE-8037AE89FD08
+.. _askf5: https://techdocs.f5.com/en-us/bigip-14-1-0/big-ip-device-service-clustering-administration-14-1-0/working-with-device-groups.html 
 .. |clouddocs| replace:: F5 Cloud Docs
 .. _clouddocs: https://clouddocs.f5.com/training/community/f5cert/html/class6/module10/lab3.html
 
