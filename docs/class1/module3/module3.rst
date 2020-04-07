@@ -7,7 +7,7 @@ This design pattern is similar to the previous design except auto config-sync is
 
 **Sample Diagram**:
 
-|mod-2-1|
+|mod-3-1|
 
 Configuration tips and caveats
 ------------------
