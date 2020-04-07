@@ -27,7 +27,7 @@ CIS (Controller) Additional Troubleshooting
     
     :code:`bigstart restart restnoded; tail -f /var/log/restnoded/restnoded.log`
 
-- AS3 Declaration Validator: If you are using Microsoft Visual Studio Code, you can follow instructions below to install a validator for your declaration. This will identify syntax errors and do auto tab complete
+- AS3 Declaration Validator: If you are using Microsoft Visual Studio Code, you can follow instructions below to install a validator for your declaration. This will identify syntax errors and do auto tab complete. Make sure to save the file first as .json extension. 
 
 https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/userguide/validate.html
 
