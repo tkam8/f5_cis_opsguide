@@ -21,4 +21,4 @@ Configuration tips and caveats
     - If you launch multiple BIG-IP Controller instances using a single manifest, they will run on the same Pod. This means that if the Pod goes down, you lose all of your Controllers.
 
 
-.. |mod-2-1| image:: images/mod-2-1.png
+.. |mod-3-1| image:: images/mod-3-1.png
