@@ -59,7 +59,6 @@ You can declare multiple applications (virtual servers) in a single partition/te
                         "template": "http",
                         "serviceMain": {
                             "class": "Service_HTTP",
-                            "trafficGroup": "traffic-group-1",
                             "virtualAddresses": [{ "use": "/Tenant0/Shared/serviceAddress0"}],
                             "virtualPort": 80,
                             "pool": "nginx_pool1"
