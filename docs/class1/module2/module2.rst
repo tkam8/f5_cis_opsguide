@@ -11,7 +11,7 @@ The ScaleN architecture allows you to create a redundant system configuration fo
 
 **Sample Diagram**:
 
-|mod-1-1|
+|mod-2-1|
 
 Configuration tips and caveats
 ------------------
@@ -122,4 +122,4 @@ Sample Configuration:
 .. |knownissue| replace:: known issue
 .. _knownissue: https://f5-cis-opsguide.readthedocs.io/en/latest/class1/module3/module3.html
 
-.. |mod-1-1| image:: images/mod-1-1.png
+.. |mod-2-1| image:: images/mod-2-1.png
