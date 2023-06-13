@@ -45,7 +45,8 @@ Example for IPv6 ip-range:
 
     .. code-block:: yaml
         
-        --ip-range='{"Test":"10.192.75.113-10.192.75.116","Production":"10.192.125.30-10.192.125.50","ipv6":"240b:c0e0:105:2870:6518:0002:1:0001-240b:c0e0:105:2870:6518:0002:1:0020"}'
+        --ip-range='{"Test-v4":"10.192.75.113-10.192.75.116","Prod-v4":"10.192.125.30-10.192.125.50","Prod-v6":"2001:db8:5::ffff-2001:db8:6::9"}'
+
 
 
 For earlier version of CIS, the below workaround is available for the big-ip url:
