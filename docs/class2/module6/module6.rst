@@ -20,7 +20,7 @@ Confirm below requirements for deploying CIS
         
         create auth partition <cis_managed_partition>
 
-#. Create a user on BIG-IP with admin access. Login to BIG-IP GUI > System > Users > Click "Create..." > Set password > For Partition Access, select Administrator for Role > Click "Add" > Click "Finished". Note: Ensure that the password does not contain reserved characters. https://support.f5.com/csp/article/K2873
+#. Create a user on BIG-IP with admin access. Login to BIG-IP GUI > System > Users > Click "Create..." > Set password > For Partition Access, select Administrator for Role > Click "Add" > Click "Finished".
 
 #. For Cluster mode integration using BGP, confirm that you have the "Routing Bundle" that enables use of zebos. 
 
