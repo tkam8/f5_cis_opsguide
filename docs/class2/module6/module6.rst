@@ -142,7 +142,7 @@ CIS Installation in Kubernetes
                         secretKeyRef:
                           key: password
                           name: bigip-login
-                  image: prod.docker.artifactory.rmn.local/f5/bigip/k8s-bigip-ctlr:2.2.1
+                  image: f5networks/k8s-bigip-ctlr:latest
                   imagePullPolicy: IfNotPresent
                   name: k8s-bigip-ctlr
               dnsPolicy: ClusterFirst
